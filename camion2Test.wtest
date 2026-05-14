@@ -1,0 +1,34 @@
+import camion2.*
+import cosas2.*
+
+describe "grupo de test parte 2" {
+
+    test "bumblebee se transforma en robot al cargarse" {
+        camion.agregarAAlmacen(bumblebee)
+        assert.equals(30, bumblebee.peligrosidad())
+    }
+
+    test "cantidad de bultos con bumblebee cargado" {
+        camion.agregarAAlmacen(bumblebee)
+        assert.equals(2, camion.cantidadTotalDeBultos())
+    }
+
+    test "paquete de ladrillos agrega 12 ladrillos al cargarse" {
+        paqueteDeLadrillos.setCantidad(80)
+        camion.agregarAAlmacen(paqueteDeLadrillos)
+        assert.equals(92, paqueteDeLadrillos.getCantidad())
+    }
+
+    test "arena pierde 10 kilos al cargarse" {
+        arenaAGranel.setPeso(150)
+        camion.agregarAAlmacen(arenaAGranel)
+        assert.equals(140, arenaAGranel.peso())
+    }
+
+    test "bateria carga misiles al subir al camion" {
+        bateriaAntiAerea.sacarMisiles()
+        camion.agregarAAlmacen(bateriaAntiAerea)
+        assert.equals(100, bateriaAntiAerea.peligrosidad())
+    }
+
+}

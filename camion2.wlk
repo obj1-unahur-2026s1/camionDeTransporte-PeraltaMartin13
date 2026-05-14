@@ -1,21 +1,22 @@
-import cosas.*
+import cosas2.*
 
 
 object camion {
     const almacen = []
+    
+    method cantidadTotalDeBultos() {
+      return almacen.sum({e => e.cantBulto()})
+    }
 
-    method retirarDeAlmacen(cosa) {
-      if(almacen.contains(cosa)){
+    method retirarDeAlmacen(cosa) { 
         almacen.remove(cosa)
-      }
     }
 
-    method agregarAAlmacen(cosa) {
-      if(not almacen.contains(cosa)){
+    method agregarAAlmacen(cosa) { 
         almacen.add(cosa)
-      }
+        cosa.consecuenciaCarga()
     }
-
+    
     method pesoTotal() {
         return 1000 + almacen.sum{e => e.peso()}
     }

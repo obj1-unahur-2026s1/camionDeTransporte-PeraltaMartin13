@@ -1,6 +1,8 @@
 object knigthRider {
     method peso() = 500
     method peligrosidad() = 10
+    method cantBulto() = 1
+    method consecuenciaCarga() {}
     
 }
 
@@ -16,6 +18,12 @@ object bumblebee {
     }
     
     method peso() = 800
+
+    method cantBulto() = 2
+
+    method consecuenciaCarga() {
+      self.transformarseEnRobot()
+    }
 
 
     method peligrosidad() {
@@ -38,6 +46,23 @@ object paqueteDeLadrillos {
     method peso() = cantidad * 2
 
     method peligrosidad() = 2
+
+    method cantBulto() {
+        if(cantidad <= 100){
+            return 1
+        } else if(cantidad.between(101, 300)) {
+            return 2
+        } else{
+            return 3
+        }  
+    }
+
+    method getCantidad() = cantidad
+
+    method consecuenciaCarga() {
+      cantidad += 12
+    }
+    
 }
 
 object arenaAGranel {
@@ -50,6 +75,12 @@ object arenaAGranel {
     method peso() = peso
 
     method peligrosidad() = 1
+
+    method cantBulto() = 1
+
+    method consecuenciaCarga() {
+      peso = (peso -10).max(0)
+    }
 }
 
 object bateriaAntiAerea{
@@ -62,6 +93,8 @@ object bateriaAntiAerea{
     method ponerMisiles() {
       tieneMisiles = true
     }
+
+    method cantBulto() = if(tieneMisiles) 2 else 1
 
     method peso() {
       if(tieneMisiles){
@@ -78,22 +111,26 @@ object bateriaAntiAerea{
         return 0
       }
     }
+
+    method consecuenciaCarga() {
+      tieneMisiles = true
+    }
 }
 
 object contenedorPortuario {
   const contiene = #{}
 
   method agregarAContiene(unaCosa) {
-    if(not contiene.contains(unaCosa)){
         contiene.add(unaCosa)
-      }
   }
 
   method quitarAContiene(unaCosa) {
-    if(contiene.contains(unaCosa)){
         contiene.remove(unaCosa)
-      }
   }
+
+  method cantBulto() {
+      return 1 + contiene.sum({e => e.cantBulto()})
+    }
 
 
   method pesoContiene() {
@@ -111,6 +148,10 @@ object contenedorPortuario {
   method peso() = 100 + self.pesoContiene()
 
   method peligrosidad() = self.mayorPeligroEnContiene()
+
+  method consecuenciaCarga() {
+      contiene.forEach({e => e.consecuenciaCarga()})
+    }
 }
 
 object residuosRadioactivos {
@@ -123,6 +164,13 @@ object residuosRadioactivos {
   method peso() = peso
 
   method peligrosidad() = 200
+
+  method cantBulto() = 1
+
+  method consecuenciaCarga() {
+      peso += 15
+    }
+
 }
 
 object embalajeSeguridad {
@@ -135,4 +183,9 @@ object embalajeSeguridad {
   method peso() = contiene.peso()
 
   method peligrosidad() = contiene.peligrosidad() / 2
+
+  method cantBulto() = 2
+
+  method consecuenciaCarga() {}
+
 }
